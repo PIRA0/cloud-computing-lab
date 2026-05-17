@@ -1,368 +1,209 @@
-# Cloud Computing Lab guidato — Container nodejs con GitHub Codespaces
+# MongoDB by Example
 
-Repository per lo studio pratico di **Docker**, **Docker Compose** e applicazioni containerizzate.
-In questo laboratorio vedremo come creare un container Docker per una semplice app Node.js, come avviarlo, testarlo e gestirne il ciclo di vita. Useremo GitHub Codespaces per lavorare in un ambiente di sviluppo già configurato con Docker.
+## Introduzione
 
-## Obiettivo
+Benvenuti al corso "MongoDB by Example"! Questo corso è progettato per fornire una comprensione pratica di MongoDB attraverso esercitazioni progressive. Partendo dalla installazione e dai primi comandi fino alla integrazione con Node.js e alle tecniche di ottimizzazione, imparerai a usare MongoDB come database per applicazioni web moderne.
 
-Capire cos'è un **Dev Container**, come si configura da zero e come si usa in GitHub Codespaces.
-
----
-
-## Competenze
-
-✅ Creare un repository Git e configurare un Dev Container  
-✅ Usare le *features* di Dev Container (Node, Docker-in-Docker)  
-✅ Aprire il progetto in VS Code con "Reopen in Container"  
-✅ Fare commit e push su GitHub  
+MongoDB è un database NoSQL orientato ai documenti: invece di tabelle e righe (come nei database relazionali), i dati vengono memorizzati in **documenti JSON** raggruppati in **collezioni**. Questo modello è flessibile, scalabile e si integra naturalmente con JavaScript e Node.js.
 
 ---
 
-## Struttura del repository
+## Indice delle Esercitazioni
 
-```
-cloud-computing-lab/
-├── .devcontainer/
-│   └── devcontainer.json          ← Ambiente Codespace (Node 24 + Docker-in-Docker)
-├── nodejs-app/                    ← App Node.js standalone (avvio diretto con npm)
-│   ├── server.js
-│   └── package.json
-└── docker-container/              ← Container Docker pronti all'uso
-```
----
+### Modulo 1 — Fondamenti e installazione
 
-## Parte 1: Creare un Dev Container da zero
+1. [Introduzione a MongoDB](./01-Fondamenti/01-Introduzione.md)
+   - Differenze tra database relazionali e NoSQL
+   - Il modello a documenti: collezioni, documenti, campi
+   - Installazione di MongoDB e MongoDB Shell (`mongosh`)
+   - Il client grafico MongoDB Compass
 
-### Cos'è un Dev Container?
+2. [MongoDB con Docker](./01-Fondamenti/02-Docker.md)
+   - Installazione di Docker
+   - Eseguire MongoDB in un container Docker
+   - `docker run` e parametri principali
+   - Persistenza dei dati con volumi Docker
+   - `docker-compose` per MongoDB
+   - Accesso al container e connessione con `mongosh`
 
-Un **Dev Container** è un container Docker usato come ambiente di sviluppo.
-Invece di installare Node, Java, Docker ecc. sul tuo PC, VS Code (o Codespaces) avvia
-un container con tutto il necessario già dentro, e ti ci connette automaticamente.
+3. [Primi passi con `mongosh`](./01-Fondamenti/03-PrimiPassi.md)
+   - Connettersi a un'istanza MongoDB
+   - Creare e selezionare un database: `use nomeDb`
+   - Creare una collezione e inserire documenti: `insertOne`, `insertMany`
+   - Listare database e collezioni: `show dbs`, `show collections`
 
-```
-Il tuo PC / Codespaces
-│
-└── VS Code
-      │
-      └── si connette a ──► Container (Debian + Node + Docker)
-                                │
-                                └── qui esegui tutto il codice
-```
+4. [MongoDB Atlas: Database nel Cloud](./01-Fondamenti/04-Atlas.md)
+   - Cos'è MongoDB Atlas e vantaggi del cloud
+   - Creare un account e un cluster gratuito (M0)
+   - Configurare sicurezza: utenti e IP whitelist
+   - Stringa di connessione e connessione con `mongosh`/Compass
+   - Funzionalità di monitoring e performance
+   - Integrare Atlas con applicazioni
 
-La configurazione è in una sola cartella:
+### Modulo 2 — Operazioni CRUD
 
-```
-progetto/
-└── .devcontainer/
-    └── devcontainer.json   ← tutto qui
-```
+5. [Create — Inserire documenti](./02-CRUD/01-Create.md)
+   - `insertOne` e `insertMany`
+   - Struttura di un documento BSON
+   - Il campo `_id` e ObjectId
+   - Documenti annidati e array
 
-### Step 1.1: Crea Repository su GitHub
+6. [Read — Interrogare i dati](./02-CRUD/02-Read.md)
+   - `find` e `findOne`: query di base
+   - Operatori di confronto: `$eq`, `$ne`, `$gt`, `$lt`, `$gte`, `$lte`
+   - Operatori logici: `$and`, `$or`, `$not`, `$nor`
+   - Proiezione: selezionare solo i campi necessari
+   - Ordinamento (`sort`), paginazione (`skip`, `limit`)
 
-1. Vai su [github.com](https://github.com) e accedi
-2. Click su **New repository** (pulsante verde)
-3. Compila i campi:
-   - **Repository name:** `cloud-computing-lab`
-   - **Description:** `Node.js Docker lab`
-   - **Public** ✅
-   - **Initialize with README** ✅
-4. Click **Create repository**
+7. [Update — Aggiornare documenti](./02-CRUD/03-Update.md)
+   - `updateOne` e `updateMany`
+   - Operatori di aggiornamento: `$set`, `$unset`, `$inc`, `$push`, `$pull`
+   - `upsert`: aggiornare o inserire se non esiste
+   - `replaceOne`: sostituzione completa di un documento
 
-### Step 1.2: Crea la struttura di base
+8. [Delete — Eliminare documenti](./02-CRUD/04-Delete.md)
+   - `deleteOne` e `deleteMany`
+   - Eliminare una collezione: `drop`
+   - Eliminare un database: `dropDatabase`
 
-Partendo da una cartella vuota:
+### Modulo 3 — Query avanzate
 
-```bash
-mkdir il-mio-lab
-cd il-mio-lab
-git init
-mkdir .devcontainer
-```
+8. [Interrogare documenti annidati e array](./03-QueryAvanzate/01-QueryAvanzate/README.md)
+   - Dot notation per accedere ai campi annidati
+   - Query su array: `$in`, `$nin`, `$all`, `$elemMatch`, `$size`
+   - Query su documenti embedded
+   - Operatore `$exists` e `$type`
 
-### Step 1.3: Crea `devcontainer.json` — versione minimale
+9. [Espressioni regolari e testo](./03-QueryAvanzate/02-Regex-e-Testo/README.md)
+   - Ricerca con espressioni regolari: `/pattern/`
+   - Indice di testo (`text index`) e operatore `$text`
+   - `$search`, `$language`, `$caseSensitive`
 
-```bash
-cat > .devcontainer/devcontainer.json << 'EOF'
-{
-  "name": "Il mio Lab",
-  "image": "mcr.microsoft.com/devcontainers/base:debian"
-}
-EOF
-```
+10. [Aggregation Pipeline](./03-QueryAvanzate/03-Aggregation/README.md)
+   - Concetto di pipeline: stadi sequenziali
+   - Stage principali: `$match`, `$project`, `$group`, `$sort`, `$limit`, `$skip`
+   - Operatori di raggruppamento: `$sum`, `$avg`, `$min`, `$max`, `$count`
+   - Stage avanzati: `$lookup` (join), `$unwind`, `$addFields`
 
-Questo è il minimo indispensabile: un nome e un'immagine base.
-Apri la cartella in VS Code → compare il popup **"Reopen in Container"** → click per entrare.
+### Modulo 4 — Schema e modellazione dei dati
 
-### Step 1.4: Aggiungi le **features** (Node + Docker)
+12. [Modellazione dei dati in MongoDB](./04-Schema/01-Modellazione/README.md)
+    - Documenti embedded vs riferimenti (relazioni)
+    - Quando usare l'embedding, quando i riferimenti
+    - Pattern comuni: one-to-one, one-to-many, many-to-many
+    - Validazione dello schema con `$jsonSchema`
 
-Le *features* sono pacchetti preconfigurati che si installano sull'immagine base.
-Non devi scrivere un Dockerfile: bastano poche righe:
+13. [Indici e prestazioni](./04-Schema/02-Indici/README.md)
+    - Cos'è un indice e perché migliora le query
+    - `createIndex`: indici singoli e composti
+    - Indici speciali: unico (`unique`), sparse, TTL (scadenza automatica)
+    - Analisi delle query con `explain()`
 
-```jsonc
-{
-  "name": "Il mio Lab",
-  "image": "mcr.microsoft.com/devcontainers/base:debian",
+### Modulo 5 — MongoDB con Node.js
 
-  "features": {
-    // Installa Node.js versione 24
-    "ghcr.io/devcontainers/features/node:1": { "version": "24" },
+14. [Connessione a MongoDB da Node.js](./05-NodeJS/01-Connessione/README.md)
+    - Il driver ufficiale `mongodb` (npm)
+    - `MongoClient`, connection string, pool di connessioni
+    - Gestione degli errori e chiusura della connessione
+    - Variabili d'ambiente per le credenziali (`.env`, `dotenv`)
 
-    // Installa Docker-in-Docker (per usare docker dentro il container)
-    "ghcr.io/devcontainers/features/docker-in-docker:2": { "moby": false }
-  }
-}
-```
+15. [CRUD da Node.js](./05-NodeJS/02-CRUD/README.md)
+    - Operazioni CRUD usando il driver Node.js
+    - Callback, Promise e `async/await`
+    - Gestione degli errori asincroni con `try/catch`
+    - Struttura di un modulo di accesso al database (Data Access Layer)
 
-> 💡 `"moby": false` dice di installare il client Docker ufficiale invece di Moby
-> (necessario su immagini Debian recenti come `trixie`).
+16. [API REST con Express e MongoDB](./05-NodeJS/03-REST-API/README.md)
+    - Progettare endpoint CRUD per una risorsa
+    - `GET /risorse`, `GET /risorse/:id`, `POST`, `PUT`, `DELETE`
+    - Validazione dell'input lato server
+    - Risposta con codici HTTP corretti
 
-### Step 1.5: Aggiungi `postCreateCommand` e `forwardPorts`
+### Modulo 6 — Mongoose (ODM)
 
-```jsonc
-{
-  "name": "Il mio Lab",
-  "image": "mcr.microsoft.com/devcontainers/base:debian",
+17. [Introduzione a Mongoose](./06-Mongoose/01-Intro/README.md)
+    - Cos'è un ODM (Object Document Mapper)
+    - Installazione e connessione con Mongoose
+    - Definire uno Schema e un Model
+    - Tipi di dati, vincoli, valori predefiniti
 
-  "features": {
-    "ghcr.io/devcontainers/features/node:1": { "version": "24" },
-    "ghcr.io/devcontainers/features/docker-in-docker:2": { "moby": false }
-  },
+18. [Operazioni CRUD con Mongoose](./06-Mongoose/02-CRUD/README.md)
+    - Creare documenti: `new Model()` e `.save()`, oppure `Model.create()`
+    - Leggere: `find`, `findById`, `findOne`
+    - Aggiornare: `findByIdAndUpdate`, `findOneAndUpdate`
+    - Eliminare: `findByIdAndDelete`, `deleteMany`
 
-  // Comando eseguito UNA VOLTA dopo la creazione del container
-  "postCreateCommand": "docker --version && node --version",
+19. [Validazione e middleware con Mongoose](./06-Mongoose/03-Avanzato/README.md)
+    - Validatori built-in: `required`, `min`, `max`, `enum`, `match`
+    - Validatori custom
+    - Middleware (hook) `pre` e `post`: `save`, `validate`, `remove`
+    - Metodi di istanza e metodi statici su un Model
+    - Popolazione di riferimenti con `.populate()`
 
-  // Porte da esporre automaticamente verso il browser
-  "forwardPorts": [3000, 8080, 8888]
-}
-```
+### Modulo 7 — Progetto finale
 
-| Chiave | Cosa fa |
-|--------|---------|
-| `image` | Immagine Docker da usare come base dell'ambiente |
-| `features` | Pacchetti aggiuntivi da installare (node, docker, git, ecc.) |
-| `postCreateCommand` | Script eseguito dopo il build, una volta sola |
-| `forwardPorts` | Porte del container esposte come se fossero sul tuo `localhost` |
-
-### Step 1.6: Commit
-
-```bash
-git add .devcontainer/devcontainer.json
-git commit -m "feat: add devcontainer configuration"
-```
-
-Fatto. Quando apri questo repository in Codespaces (o in VS Code con l'estensione
-*Dev Containers*), ottieni un ambiente già pronto con Node 24 e Docker disponibili.
-
-### Step 1.7: Crea il Codespace
-
-Ora vai su GitHub, apri il tuo repository e premi il pulsante **Code** (verde) →
-tab **Codespaces** → **Create codespace on main**.
-
-Attendi qualche minuto mentre GitHub costruisce il container. Al termine si aprirà
-VS Code nel browser con l'ambiente già configurato.
-
-**Complimenti! Hai completato la Parte 1 dell'esercitazione.**
-Hai ora un Codespace funzionante con Node.js disponibile e pronto all'uso.
+20. [Progetto — Applicazione CRUD completa](./07-Progetto/01-Progetto/README.md)
+    - Analisi dei requisiti e modellazione dei dati
+    - Backend con Express, Mongoose e autenticazione base
+    - Frontend con fetch API per consumare le API REST
+    - Deploy in un container Docker con `docker-compose`
 
 ---
 
-## Parte 2: Utilizzare un Dev Container esistente (esercitaione alternativa alla Parte 1)
+## Come utilizzare questo corso
 
-> **Nota:** Non è necessario essere il proprietario di un repository per avviare un Codespace.
-> GitHub permette di creare un Codespace da **qualsiasi repository pubblico**, anche se appartiene
-> ad un altro utente. Il tuo Codespace è un ambiente personale e isolato: le modifiche che fai
-> non influenzano il repository originale.
->
-> Il vantaggio di lavorare su un **proprio repository** (o su un fork) è che puoi fare il
-> **push delle modifiche** direttamente dal Codespace al repository remoto, salvando così il
-> tuo lavoro in modo permanente. Su un repository altrui, invece, non hai i permessi di scrittura
-> e le modifiche restano solo nel Codespace temporaneo.
->
-> Per questo motivo, se vuoi conservare il tuo lavoro, è consigliabile fare un **fork** del
-> repository prima di aprire il Codespace.
+Ogni modulo è contenuto in una cartella dedicata. All'interno di ogni cartella troverai:
+- Un file `README.md` con la descrizione teorica e l'indice degli argomenti
+- Una cartella `esempi/` con esempi pratici numerati e commentati
+- Una cartella `esercizi/` con la guida alle esercitazioni (senza soluzione diretta)
 
-Apri il file `.devcontainer/devcontainer.json` del repository `cloud-computing-lab` e confrontalo con quello creato da zero:
+Si consiglia di seguire i moduli nell'ordine proposto: ogni modulo si basa sui concetti dei precedenti.
 
-```jsonc
-{
-  "name": "Node.js Lab",
-  "image": "mcr.microsoft.com/devcontainers/base:debian",
+## Prerequisiti
 
-  "features": {
-    "ghcr.io/devcontainers/features/node:1": { "version": "24" },
-    "ghcr.io/devcontainers/features/docker-in-docker:2": { "moby": false }
-  },
+- Conoscenze base di JavaScript (variabili, funzioni, array, oggetti)
+- Conoscenze base di Node.js (moduli, npm) — moduli 5 e 6
+- Docker installato — modulo 7
+- MongoDB Compass (facoltativo ma consigliato)
 
-  "postCreateCommand": "docker --version && node --version",
+## Risorse
 
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "dbaeumer.vscode-eslint",
-        "ms-azuretools.vscode-docker"
-      ]
-    }
-  },
+- [Documentazione ufficiale MongoDB](https://www.mongodb.com/docs/)
+- [MongoDB University (corsi gratuiti)](https://learn.mongodb.com/)
+- [Documentazione Mongoose](https://mongoosejs.com/docs/)
+- [MongoDB Compass (GUI)](https://www.mongodb.com/products/tools/compass)
 
-  "forwardPorts": [3000, 8080, 8888]
-}
-```
+## Stato del Progetto
 
-> 📝 La sezione `customizations.vscode.extensions` installa automaticamente le estensioni
-> VS Code nel container. `forwardPorts` espone le porte 3000, 8080 e 8888.
+### Completato ✅
+- **Modulo 1 - Fondamenti** (4 capitoli + 2 esercitazioni Docker complete)
+- **Modulo 2 - CRUD** (4 capitoli teorici)
+- **Modulo 3 - Query Avanzate** (3 capitoli teorici)
 
-### Step 2.1: Apri il Codespace
+### In Sviluppo 🔄
+- **Modulo 4 - Schema** (da creare)
+- **Modulo 5 - NodeJS** (da creare)
+- **Modulo 6 - Mongoose** (da creare)
+- **Modulo 7 - Progetto** (da creare)
 
-1. Vai su [github.com/filippo-bilardo/cloud-computing-lab](https://github.com/filippo-bilardo/cloud-computing-lab)
-2. Click su **Code** (verde) → tab **Codespaces** → **Create codespace on main**
-3. Attendi 1–2 minuti → VS Code si apre nel browser
+### Esercitazioni Disponibili
+1. **01-mongodb-nodejs** - Full-stack (MongoDB + Node.js + Mongo Express)
+   - REST API completa con 8 endpoint
+   - Frontend dashboard interattivo
+   - 65+ domande di riflessione
+   - Valutazione su scala 60-100%
 
-### Step 2.2: Verifica l'ambiente
+2. **02-primi-passi-mongosh** - MongoDB Shell
+   - Focus su comandi mongosh
+   - 3 esercizi pratici (Cinema, Scuola, Ristorante)
+   - Approccio didattico progressivo
 
-```bash
-node --version    # v24.x
-docker --version  # Docker 27.x
-```
+## TODO
 
-**Complimenti! Hai completato la Parte 2 dell'esercitazione.**
-Anche in questo caso hai a disposizione un Codespace funzionante con Node.js pronto all'uso,
-questa volta utilizzando un Dev Container già configurato da un repository esistente.
+- [ ] Completare guide moduli 4-7
+- [ ] Aggiungere esercitazioni per moduli 2-7
+- [ ] Sezione su transazioni multi-documento
+- [ ] Sezione su replica set e sharding
+- [ ] Integrazione con framework frontend (React)
+- [ ] Glossario dei termini MongoDB vs SQL
 
----
-
-## Parte 3: Creare e avviare la `nodejs-app`
-
-Una volta aperto il Codespace (o il Dev Container), crea una semplice app Node.js
-che gira **direttamente nell'ambiente**.
-
-### Step 3.1: Crea la cartella e inizializza il progetto
-
-```bash
-mkdir nodejs-app
-cd nodejs-app
-npm init -y
-```
-
-`npm init -y` genera un `package.json` con i valori predefiniti.
-
-### Step 3.2: Installa Express
-
-```bash
-npm install express
-```
-
-Questo aggiunge Express come dipendenza in `package.json` e crea la cartella `node_modules/`.
-
-### Step 3.3: Crea `server.js`
-
-```bash
-cat > server.js << 'EOF'
-const express = require('express');
-const app = express();
-
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Hello from Node.js!',
-    service: 'nodejs-api'
-  });
-});
-
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`✅ Node.js app running on port ${PORT}`);
-});
-EOF
-```
-personalizza il messaggio JSON inserendo il tuo nome.
-
-### Step 3.4: Aggiungi lo script `start` a `package.json`
-
-Apri `package.json` e assicurati che la sezione `scripts` contenga:
-
-```json
-"scripts": {
-  "start": "node server.js"
-}
-```
-
-### Step 3.5: Avvia l'app
-
-```bash
-npm start
-# Output: ✅ Node.js app running on port 3000
-```
-
-### Step 3.6: Testa l'app
-
-Apri un **secondo terminale** (senza fermare il server) e lancia:
-
-```bash
-curl http://localhost:3000/
-# Output: {"message":"Hello from Node.js!","service":"nodejs-api"}
-
-curl http://localhost:3000/health
-# Output: {"status":"ok"}
-```
-
-In Codespaces appare la notifica **"Port 3000 is available"** → click per aprire nel browser.
-
-### Step 3.7: Aggiungi `.gitignore`
-
-```bash
-echo "node_modules/" > .gitignore
-```
-
-Esclude la cartella `node_modules/` dal repository (le dipendenze si riscaricanno con `npm install`).
-
-### Step 3.8: Commit
-
-```bash
-cd ..   # torna alla root del progetto
-git add nodejs-app/
-git commit -m "feat: add nodejs-app standalone"
-```
-
-> 💡 **Differenza rispetto al container Docker**: questa app usa Node.js installato
-> nel Dev Container tramite la *feature*. Nell'[Esercizio B](esercizio_b.md)
-> la stessa app girerà dentro un container Docker isolato.
-
----
-
-## ✅ Verifica completamento Esercizio A
-
-**Parte 1 — Creare un Dev Container da zero**
-- [ ] Cartella `.devcontainer/` creata con `devcontainer.json` minimale
-- [ ] Features Node e Docker-in-Docker aggiunte
-- [ ] `postCreateCommand` e `forwardPorts` configurati
-- [ ] Commit effettuato con messaggio descrittivo
-- [ ] Codespace aperto e `node --version` / `docker --version` verificati
-
-**Parte 2 — Utilizzare un Dev Container esistente**
-- [ ] File `.devcontainer/devcontainer.json` del repository `cloud-computing-lab` aperto e analizzato
-- [ ] Codespace avviato dal repository esistente
-- [ ] `node --version` e `docker --version` verificati nel Codespace
-
-**Parte 3 — Creare e avviare la `nodejs-app`**
-- [ ] Cartella `nodejs-app/` creata e progetto inizializzato con `npm init`
-- [ ] File `index.js` creato con server HTTP
-- [ ] Script `start` aggiunto in `package.json`
-- [ ] App avviata con `npm start` e risposta verificata con `curl http://localhost:3000/`
-
----
-
-## 📸 Screenshot da consegnare (Esercizio A)
-
-1. File `devcontainer.json` completo (Step 1.4)
-2. Terminale Codespace: output di `node --version` e `docker --version`
-3. Applicazione Node.js in esecuzione (output di `npm start`)
-4. Risposta JSON di `curl http://localhost:3000/`
-
----
-
-## 🎯 Prossimi passi
-
-- Completa **[Esercizio B](esercizio_b.md)** — Fork del repository e gestione container Docker (Node.js, Java Spring Boot, LAMP)
