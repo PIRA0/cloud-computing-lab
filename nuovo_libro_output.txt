@@ -1,0 +1,18 @@
+{
+    "success": true,
+    "data": {
+        "_id": "6a09909cb84b6532531ddecc",
+        "titolo": "Il vecchio e il mare",
+        "autore": "Ernest Hemingway",
+        "anno": 1952,
+        "genere": "Romanzo",
+        "disponibile": true,
+        "copie": 3,
+        "tags": [
+            "classico",
+            "americano",
+            "premio Pulitzer"
+        ],
+        "data_inserimento": "2026-05-17T09:55:40.256Z"
+    }
+}

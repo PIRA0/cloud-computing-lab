@@ -1,0 +1,34 @@
+{
+    "success": true,
+    "count": 2,
+    "data": [
+        {
+            "_id": "6a098df206eb6b54409df8a5",
+            "titolo": "Il Signore degli Anelli",
+            "autore": "J.R.R. Tolkien",
+            "anno": 1954,
+            "genere": "Fantasy",
+            "disponibile": true,
+            "copie": 2,
+            "tags": [
+                "fantasy",
+                "epico",
+                "avventura"
+            ]
+        },
+        {
+            "_id": "6a098df206eb6b54409df8a6",
+            "titolo": "Harry Potter e la pietra filosofale",
+            "autore": "J.K. Rowling",
+            "anno": 1997,
+            "genere": "Fantasy",
+            "disponibile": false,
+            "copie": 0,
+            "tags": [
+                "fantasy",
+                "young adult",
+                "magia"
+            ]
+        }
+    ]
+}

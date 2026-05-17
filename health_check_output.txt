@@ -1,0 +1,5 @@
+{
+    "status": "ok",
+    "database": "biblioteca",
+    "timestamp": "2026-05-17T09:54:46.676Z"
+}

@@ -1,0 +1,26 @@
+{
+    "success": true,
+    "data": {
+        "totale": 5,
+        "disponibili": 4,
+        "non_disponibili": 1,
+        "generi": [
+            {
+                "_id": "Fantasy",
+                "count": 2
+            },
+            {
+                "_id": "Distopia",
+                "count": 1
+            },
+            {
+                "_id": "Romanzo",
+                "count": 1
+            },
+            {
+                "_id": "Romanzo storico",
+                "count": 1
+            }
+        ]
+    }
+}
