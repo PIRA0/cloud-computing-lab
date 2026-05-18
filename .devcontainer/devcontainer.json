@@ -12,6 +12,7 @@
       "version": "lts"
     }
   },
+   
 
   "customizations": {
     "vscode": {
@@ -22,6 +23,7 @@
       ]
     }
   },
-
   "remoteUser": "vscode"
+  "postCreateCommand": "docker --version && node --version",
+   "forwardPorts": [3000, 8080, 8888]
 }
