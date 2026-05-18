@@ -1,29 +1,15 @@
 {
-  "name": "Base DinD – Debian",
-  "image": "mcr.microsoft.com/devcontainers/base:debian-12",
+  "name": "Il mio Lab",
+  "image": "mcr.microsoft.com/devcontainers/base:debian",
 
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "version": "latest",
-      "enableNonRootDocker": "true",
-      "moby": "true"
-    },
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "lts"
-    }
+    "ghcr.io/devcontainers/features/node:1": { "version": "24" },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": { "moby": false }
   },
-   
 
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-azuretools.vscode-docker",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode"
-      ]
-    }
-  },
-  "remoteUser": "vscode"
+  // Comando eseguito UNA VOLTA dopo la creazione del container
   "postCreateCommand": "docker --version && node --version",
-   "forwardPorts": [3000, 8080, 8888]
+
+  // Porte da esporre automaticamente verso il browser
+  "forwardPorts": [3000, 8080, 8888]
 }
